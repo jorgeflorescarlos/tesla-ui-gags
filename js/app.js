@@ -210,6 +210,7 @@ window.TeslaUI = (function () {
     stage.style.setProperty('--ui-mode-font', mode.font || 'inherit');
     Car.setPaint(mode.paint || '#e9ecef');
     Car.setCostumes([]);
+    $('car-stage').style.display = mode.hideCar ? 'none' : '';
     $('sb-temp').textContent = mode.temp || '72°F';
 
     renderModeCard(mode);

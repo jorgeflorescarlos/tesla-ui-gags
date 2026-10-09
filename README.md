@@ -26,6 +26,21 @@ Everything is plain HTML, CSS and JavaScript: no build step and no image or audi
 - **Lite effects** in the Toybox reduces animations for slower screens. It turns on automatically in the car's browser.
 - Link straight to a mode with a hash: `.../#halloween`, `#neon`, `#frost`, `#abyss`, `#standard`.
 
+## Halloween 3D (`#halloween3d`)
+
+A real-time 3D graveyard in raw WebGL (no libraries), tuned for weak GPUs like the Intel Atom:
+
+- **Procedural texture atlas**: trees, tombstones, pumpkins, house, bats and ghosts are drawn once into one 1024² texture at startup. Nothing is downloaded.
+- **Billboard impostors**: scenery is flat camera-facing sprites instead of meshes.
+- **Animation on the GPU**: swaying trees, flickering pumpkins, flapping bats, wandering ghosts, rising fireflies and the rippling ghost sheet are all computed in vertex shaders from time and a seed. Each frame the CPU only updates a few values.
+- **About 6 draw calls per frame**, with static buffers (sky, ground, ghost car, cutout sprites, glow sprites, fireflies).
+- **Cheap lighting tricks**: fog hides the edge of the world, a blob shadow sits under the car, and pumpkin light pools are summed in the ground shader. There's no real-time shadow casting and no post-processing.
+- **Dynamic resolution**: renders below screen resolution and adapts every 1.5 s to hold the target frame rate.
+- **Frame cap**: 30 fps in Lite mode, 60 otherwise.
+- **Clean exit**: GPU memory is freed when you leave the mode (`WEBGL_lose_context`). Without WebGL it falls back to the 2D Halloween mode.
+
+Drag to orbit the camera (mouse wheel zooms on PC). Turn on **Show Stats** to see fps, render resolution and draw calls.
+
 ## Add your own mode
 
 Create `js/modes/<name>.js` and add a `<script>` tag for it in `index.html`:

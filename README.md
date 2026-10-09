@@ -41,6 +41,18 @@ A real-time 3D graveyard in raw WebGL (no libraries), tuned for weak GPUs like t
 
 Drag to orbit the camera (mouse wheel zooms on PC). Turn on **Show Stats** to see fps, render resolution and draw calls.
 
+## Día de Muertos 3D (`#muertos3d`): showcase and benchmark
+
+This is the heaviest scene, built to look like it runs on a much stronger GPU through tricks rather than brute force:
+
+- **Baked lighting**: about 100 candles light the ground, the ofrenda, the car and the sprites. The light is computed once at load and stored per vertex, so it costs nothing per frame. A global flicker and the colored firework light are the only dynamic lighting.
+- **Cheap post-processing**: bloom is extracted and blurred at 1/4 or 1/8 resolution. Tone mapping, warm color grading, vignette and film grain happen in a single composite pass.
+- **Shader-only details**: the "Catrina car" sugar-skull flowers, petal-ringed eye sockets, teeth, glass roof and fake sky/candle reflections are math in the fragment shader, with no textures.
+- **GPU-driven motion**: papel picado cloth, falling marigold petals, rising spirit orbs, butterflies, dancing Catrinas and fireworks with rocket trails are all animated in vertex shaders. The CPU only schedules firework bursts.
+- **About 16 draw calls** with static buffers.
+- **Auto quality**: lowers resolution first, then steps down the quality tier (Ultra, High, Medium, Low), dropping bloom passes, grain and particle counts. Turn **Auto Quality** off to lock Ultra at full resolution.
+- **Benchmark** (button in the mode card): 20 s at locked Ultra and full resolution on a scripted camera path. Reports average fps, 1% low, worst frame and the GPU name.
+
 ## Add your own mode
 
 Create `js/modes/<name>.js` and add a `<script>` tag for it in `index.html`:
